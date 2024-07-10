@@ -8,7 +8,10 @@ BEGIN TRANSACTION;
 
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_name TEXT NOT NULL
+    username TEXT UNIQUE NOT NULL,
+    hashed_password BLOB,
+    salt BLOB,
+    type TEXT CHECK( type IN ('reader', 'author') ) NOT NULL DEFAULT 'reader'
 );
 
 CREATE TABLE IF NOT EXISTS email_accounts (
@@ -21,14 +24,14 @@ CREATE TABLE IF NOT EXISTS email_accounts (
 -- Insert default data (if necessary here)
 
 -- Set up three users
-INSERT INTO users ('user_name') VALUES ('Simon Star');
-INSERT INTO users ('user_name') VALUES ('Dianne Dean');
-INSERT INTO users ('user_name') VALUES ('Harry Hilbert');
+-- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Simon Star', 'password1', 'author');
+-- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Dianne Dean', 'password2', 'reader');
+-- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Harry Hilbert', 'password3', 'reader');
 
 -- Give Simon two email addresses and Diane one, but Harry has none
-INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
-INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
-INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
+-- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
 
 COMMIT;
 

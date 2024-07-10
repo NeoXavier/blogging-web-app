@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Authour home page!</title>
+		<link rel="stylesheet" href="/css/base.css">
+		<link rel="stylesheet" href="/css/index.css">
+		<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+        <section class="todoapp">
+			<nav class="nav">
+				<ul>
+					<li class="user"><%= user.username %></li>
+					<li>
+						<form action="/users/logout" method="post">
+							<button class="logout" type="submit">Sign out</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+			<header class="header">
+				<h1>Author homepage</h1>
+			</header>
+            <section class="main">
+                <p>This is the author home page</p>
+            </section>
+		<footer class="info">
+			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
+		</footer>
+</body>
+</html>
+
