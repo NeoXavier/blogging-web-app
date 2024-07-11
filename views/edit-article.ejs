@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Article</title>
+  <link rel="stylesheet" href="/path/to/your/css/styles.css">
+  <style>
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .article-container h1 {
+      text-align: center;
+    }
+
+    .article-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-container label {
+      margin-top: 10px;
+    }
+
+    .article-container input, 
+    .article-container textarea {
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .article-container button {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .article-container button:hover {
+      background-color: #0056b3;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="article-container">
+    <h1>Edit Article</h1>
+    <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
+    <p>Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
+
+    <form action="/author/articles/update/<%= article.id %>" method="POST">
+      <label for="title">Article Title</label>
+      <input type="text" id="title" name="title" value="<%= article.title %>" required>
+
+      <label for="content">Article Text</label>
+      <textarea id="content" name="content" rows="10" required><%= article.content %></textarea>
+
+      <button type="submit">Submit Changes</button>
+    </form>
+
+    <a href="/author/home" class="back-button">Back to Home</a>
+  </div>
+</body>
+</html>
+

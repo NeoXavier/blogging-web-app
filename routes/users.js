@@ -82,51 +82,6 @@ router.get("/list-users", (req, res, next) => {
   });
 });
 
-/**
- * @desc Displays a page with a form for creating a user record
- */
-router.get("/add-user", (req, res) => {
-  res.render("add-user.ejs");
-});
-
-/**
- * @desc Add a new user to the database based on data from the submitted form
- */
-router.post("/add-user", (req, res, next) => {
-  // Validate input
-  if (!req.body.user_name || !req.body.password) {
-    res.status(400);
-    res.send("Blank fields not allowed!");
-    return;
-  }
-
-  // query the database to see if the user already exists
-  let query = "SELECT * FROM users WHERE user_name = ?;";
-  let query_parameters = [req.body.user_name];
-  global.db.get(query, query_parameters, function (err, row) {
-    if (err) {
-      next(err);
-    }
-    if (row) {
-      res.send("User already exists!");
-      return;
-    }
-  });
-
-  // Define the query
-  query = "INSERT INTO users (user_name, password) VALUES( ?, ? );";
-  query_parameters = [req.body.user_name, req.body.password];
-  // Execute the query and send a confirmation message
-  global.db.run(query, query_parameters, function (err) {
-    if (err) {
-      next(err); //send the error on to the error handler
-    } else {
-      req.session.user = { user_name: req.body.user_name, type: "reader" };
-      res.redirect("/users/login");
-    }
-  });
-});
-
 router.get("/login", (req, res) => {
   res.render("login");
 });
@@ -152,10 +107,12 @@ router.post("/login/password", (req, res, next) => {
         }
         if (row && row.type) {
           if (row.type === "reader") {
-            return res.redirect("/readers/home");
+            user.type = "reader";
+            return res.redirect("/reader/home");
           }
           if (row.type === "author") {
-            return res.redirect("/authors/home");
+            user.type = "author";
+            return res.redirect("/author/home");
           }
         }
         // Default redirection if type is not found or does not match

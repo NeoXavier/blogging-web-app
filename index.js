@@ -49,9 +49,9 @@ app.get(
   },
   (req, res) => {
     if (req.user.type == "author") {
-      res.redirect("/authors/home");
+      res.redirect("/author/home");
     } else {
-      res.redirect("/readers/home");
+      res.redirect("/reader/home");
     }
   },
 );
@@ -60,11 +60,11 @@ app.get(
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
-const readersRouter = require("./routes/readers");
-app.use("/readers", readersRouter);
+const readersRouter = require("./routes/reader");
+app.use("/reader", readersRouter);
 
-const authorsRouter = require("./routes/authors");
-app.use("/authors", authorsRouter);
+const authorsRouter = require("./routes/author");
+app.use("/author", authorsRouter);
 
 // Make the web application listen for HTTP requests
 app.listen(port, () => {

@@ -1,18 +1,16 @@
 <!doctype html>
 <html>
-
 <head>
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Authour home page!</title>
-		<link rel="stylesheet" href="/css/base.css">
-		<link rel="stylesheet" href="/css/index.css">
-		<link rel="stylesheet" href="/css/app.css">
+        <title>Authour Home Page</title>
+		<link rel="stylesheet" href="/main.css">
 </head>
 <body>
-        <section class="todoapp">
+        <section class="app">
 			<nav class="nav">
 				<ul>
+                    <li class="settings"><a href="/author/settings">settings</a></li>
 					<li class="user"><%= user.username %></li>
 					<li>
 						<form action="/users/logout" method="post">
@@ -23,9 +21,61 @@
 			</nav>
 			<header class="header">
 				<h1>Author homepage</h1>
+                <h2><%= title%></h2>
+                <h3><%= subtitle%></h2>
+                <h5>by <%= author%></h3>
 			</header>
             <section class="main">
                 <p>This is the author home page</p>
+                <button type="button"><a href="/author/articles/create"> Create new draft</a></button>
+                <section class="articles">
+                    <h2>Drafts</h2>
+                    <ul>
+                        <% draftArticles.forEach(article => { %>
+                        <li>
+                            <h2><%= article.title %></h2>
+                            <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
+                            <p>Author: <%= article.author_name %></p>
+                            <% if (article.published_at) { %>
+                            <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
+                            <% } %>
+                            <p>Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
+                            <p><%= article.content %></p>
+                            <a href="/author/articles/edit/<%= article.id %>">Edit this article</a>
+                            <form action="/author/articles/publish" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= article.id %>">
+                                <button type="submit">Publish</button>
+                            </form>
+                            <form action="/author/articles/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                <input type="hidden" name="id" value="<%= article.id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </section>
+                <section class="articles">
+                    <h2>Published Aritcles</h2>
+                    <ul>
+                        <% publishedArticles.forEach(article => { %>
+                        <li class="article">
+                            <h2><%= article.title %></h2>
+                            <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
+                            <p>Author: <%= article.author_name %></p>
+                            <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
+                            <p>Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
+                            <p><%= article.content %></p>
+                            <p>Reads: <%= article.reads %></p>
+                            <p>Likes: <%= article.likes %></p>
+                            <a href="/reader/article/<%= article.id %>">Share this article</a>
+                            <a href="/author/articles/edit/<%= article.id %>">Edit this article</a>
+                            <form action="/author/articles/delete/" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                <input type="hidden" name="id" value="<%= article.id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                        <% }); %>
+                    </ul>
             </section>
 		<footer class="info">
 			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>

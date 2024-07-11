@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Log in</title>
+		<link rel="stylesheet" href="/main.css">
+		<link rel="stylesheet" href="/login.css">
+	</head>
+	<body>
+		<section class="prompt">
+			<nav class="nav">
+				<ul>
+                    <li><a href="/author/home">back</a></li>
+					<li class="user"><%= user.username %></li>
+					<li>
+						<form action="/users/logout" method="post">
+							<button class="logout" type="submit">Sign out</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+			<h3>Settings</h3>
+			<form action="/author/settings" method="post">
+				<section>
+					<label for="title">Blog Title</label>
+                    <input id="title" name="title" type="text" value="<%= title%>" required autofocus>
+				</section>
+				<section>
+					<label for="subtitle">Blog Subtitle</label>
+					<input id="subtitle" name="subtitle" type="text" value="<%= subtitle%>" required autofocus>
+				</section>
+				<section>
+					<label for="author">Author</label>
+					<input id="author" name="author" type="text" value="<%= author%>" required>
+				</section>
+				<button type="submit">Update</button>
+			</form>
+		</section>
+		<footer class="info">
+			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
+		</footer>
+	</body>
+</html>
+
