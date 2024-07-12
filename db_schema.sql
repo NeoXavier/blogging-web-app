@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE articles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
+    subtitle TEXT NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     published_at DATETIME,
@@ -24,6 +25,8 @@ CREATE TABLE articles (
     status TEXT CHECK(status IN ('draft', 'published')) NOT NULL,
     author_id INTEGER,
     author_name TEXT,
+    likes INTEGER DEFAULT 0,
+    reads INTEGER DEFAULT 0,
     FOREIGN KEY (author_id) REFERENCES users(user_id)
 );
 

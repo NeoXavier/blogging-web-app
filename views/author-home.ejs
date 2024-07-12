@@ -29,11 +29,12 @@
                 <p>This is the author home page</p>
                 <button type="button"><a href="/author/articles/create"> Create new draft</a></button>
                 <section class="articles">
-                    <h2>Drafts</h2>
+                    <h2>Your Drafts</h2>
                     <ul>
                         <% draftArticles.forEach(article => { %>
                         <li>
                             <h2><%= article.title %></h2>
+                            <h3><%= article.subtitle %></h3>
                             <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
                             <p>Author: <%= article.author_name %></p>
                             <% if (article.published_at) { %>
@@ -55,11 +56,12 @@
                     </ul>
                 </section>
                 <section class="articles">
-                    <h2>Published Aritcles</h2>
+                    <h2>Your Published Aritcles</h2>
                     <ul>
                         <% publishedArticles.forEach(article => { %>
                         <li class="article">
                             <h2><%= article.title %></h2>
+                            <h3><%= article.subtitle %></h3>
                             <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
                             <p>Author: <%= article.author_name %></p>
                             <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>

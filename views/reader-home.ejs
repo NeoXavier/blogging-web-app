@@ -3,13 +3,14 @@
 <head>
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Home page</title>
-        <link rel="stylesheet" href="/main.css">
+        <title>Reader Home Page</title>
+		<link rel="stylesheet" href="/main.css">
 </head>
 <body>
         <section class="app">
 			<nav class="nav">
 				<ul>
+                    <li class="settings"><a href="/author/settings">settings</a></li>
 					<li class="user"><%= user.username %></li>
 					<li>
 						<form action="/users/logout" method="post">
@@ -19,15 +20,31 @@
 				</ul>
 			</nav>
 			<header class="header">
-				<h1>Reader homepage</h1>
+				<h1>Reader Home Page</h1>
+                <h2><%= title%></h2>
+                <h3><%= subtitle%></h2>
+                <h5>by <%= author%></h3>
 			</header>
             <section class="main">
                 <p>This is the reader home page</p>
+                <section class="articles">
+                    <h2>Published Aritcles</h2>
+                    <ul>
+                        <% articles.forEach(article => { %>
+                        <li class="article">
+                            <h2><%= article.title %></h2>
+                            <h3><%= article.subtitle %></h3>
+                            <p>Author: <%= article.author_name %></p>
+                            <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
+                            <p>Reads: <%= article.reads %></p>
+                            <p>Likes: <%= article.likes %></p>
+                            <a href="/reader/article/<%= article.id %>">Share this article</a>
+                        </li>
+                        <% }); %>
+                    </ul>
             </section>
 		<footer class="info">
 			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
 		</footer>
 </body>
 </html>
-
-

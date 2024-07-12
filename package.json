@@ -9,7 +9,8 @@
     "clean-db": "rm database.db #remove the old database",
     "build-db-win": "sqlite3 database.db < db_schema.sql",
     "clean-db-win": "del database.db",
-    "start": "node index.js"
+    "start": "node index.js",
+    "restart": "rm database.db sessions.db && npm run build-db && npm run start"
   },
   "author": "Simon Katan",
   "license": "ISC",

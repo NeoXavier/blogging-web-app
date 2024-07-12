@@ -14,10 +14,12 @@ const passport = require("passport");
 const crypto = require("crypto");
 var LocalStrategy = require("passport-local");
 
+let db = global.db;
+
 // Configure password authentication strategy
 passport.use(
   new LocalStrategy(function verify(username, password, cb) {
-    global.db.get(
+    db.get(
       "SELECT * FROM users WHERE username = ?",
       [username],
       function (err, row) {
@@ -56,13 +58,28 @@ passport.use(
 // Configure session management
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
-    cb(null, { id: user.id, username: user.username });
+    // console.log(user);
+    cb(null, { id: user.user_id, username: user.username, type: user.type });
   });
 });
 
 passport.deserializeUser(function (user, cb) {
   process.nextTick(function () {
-    return cb(null, user);
+    console.log(user);
+    db.get(
+      "SELECT * FROM users WHERE user_id = ?",
+      [user.id],
+      function (err, dbUser) {
+        if (err) {
+          return cb(err);
+        }
+        cb(null, {
+          id: dbUser.user_id,
+          username: dbUser.username,
+          type: dbUser.type,
+        });
+      },
+    );
   });
 });
 
@@ -92,10 +109,9 @@ router.post("/login/password", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      console.log(info);
       return res.redirect("/users/login");
     }
-    req.logIn(user, (err) => {
+    req.login(user, (err) => {
       if (err) {
         return next(err);
       }
@@ -105,15 +121,15 @@ router.post("/login/password", (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (row && row.type) {
-          if (row.type === "reader") {
-            user.type = "reader";
-            return res.redirect("/reader/home");
-          }
-          if (row.type === "author") {
-            user.type = "author";
-            return res.redirect("/author/home");
-          }
+
+        // Store the user type in req.user
+        user.type = row.type;
+
+        if (row.type == "reader") {
+          return res.redirect("/reader/home");
+        }
+        if (row.type == "author") {
+          return res.redirect("/author/home");
         }
         // Default redirection if type is not found or does not match
         return res.redirect("/");
@@ -130,7 +146,12 @@ router.post("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/"); // Redirect to home page or login page
+    });
   });
 });
 
@@ -160,6 +181,7 @@ router.post("/signup", function (req, res, next) {
           var user = {
             id: this.lastID,
             username: req.body.username,
+            type: "reader",
           };
           req.login(user, function (err) {
             if (err) {
@@ -172,30 +194,6 @@ router.post("/signup", function (req, res, next) {
     },
   );
 });
-
-// router.post("/login", (req, res, next) => {
-//   // Query database for user
-//   let query = "SELECT * FROM users WHERE user_name = ? AND password = ?;";
-//   let query_parameters = [req.body.user_name, req.body.password];
-//
-//   global.db.get(query, query_parameters, function (err, row) {
-//     if (err) {
-//       next(err);
-//     } else {
-//       // Check if user exists
-//       if (row) {
-//         req.session.user = { user_name: row.user_name, type: row.type };
-//         if (row.type == "author") {
-//           res.redirect("/authors/home");
-//         } else {
-//           res.redirect("/readers/home");
-//         }
-//       } else {
-//         res.send("Username or password incorrect!");
-//       }
-//     }
-//   });
-// });
 
 // Export the router object so index.js can access it
 module.exports = router;
