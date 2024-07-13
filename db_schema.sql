@@ -7,14 +7,14 @@ BEGIN TRANSACTION;
 -- Create your tables with SQL commands here (watch out for slight syntactical differences with SQLite vs MySQL)
 
 CREATE TABLE IF NOT EXISTS users (
-    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     hashed_password BLOB,
     salt BLOB,
     type TEXT CHECK( type IN ('reader', 'author') ) NOT NULL DEFAULT 'reader'
 );
 
-CREATE TABLE articles (
+CREATE TABLE IF NOT EXISTS articles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     subtitle TEXT NOT NULL,
@@ -27,10 +27,10 @@ CREATE TABLE articles (
     author_name TEXT,
     likes INTEGER DEFAULT 0,
     reads INTEGER DEFAULT 0,
-    FOREIGN KEY (author_id) REFERENCES users(user_id)
+    FOREIGN KEY (author_id) REFERENCES users(id)
 );
 
-CREATE TABLE reads (
+CREATE TABLE IF NOT EXISTS reads (
   user_id INTEGER,
   article_id INTEGER,
   read_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -39,20 +39,25 @@ CREATE TABLE reads (
   FOREIGN KEY (article_id) REFERENCES articles(id)
 );
 
-CREATE TABLE likes (
+CREATE TABLE IF NOT EXISTS likes (
   user_id INTEGER,
   article_id INTEGER,
+  username TEXT,
   liked_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, article_id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (article_id) REFERENCES articles(id)
 );
 
-CREATE TABLE IF NOT EXISTS email_accounts (
-    email_account_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email_address TEXT NOT NULL,
-    user_id  INT, --the user that the email account belongs to
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    article_id INTEGER,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    likes INTEGER DEFAULT 0,
+    FOREIGN KEY (article_id) REFERENCES articles(id)
+    FOREIGN KEY (username) REFERENCES users(username)
 );
 
 -- Insert default data (if necessary here)

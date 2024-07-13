@@ -5,6 +5,28 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Reader Home Page</title>
 		<link rel="stylesheet" href="/main.css">
+          <style>
+        .articles ul {
+            list-style-type: none; /* Remove default list style */
+            padding: 0; /* Remove default padding */
+        }
+        .article {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+        .article:hover {
+            background-color: #e0e0e0;
+        }
+        .article a {
+            text-decoration: none;
+            color: inherit; /* Inherit color to make the entire list item clickable */
+            display: block; /* Make anchor fill the list item */
+        }
+    </style>
 </head>
 <body>
         <section class="app">
@@ -32,13 +54,14 @@
                     <ul>
                         <% articles.forEach(article => { %>
                         <li class="article">
-                            <h2><%= article.title %></h2>
-                            <h3><%= article.subtitle %></h3>
-                            <p>Author: <%= article.author_name %></p>
-                            <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
-                            <p>Reads: <%= article.reads %></p>
-                            <p>Likes: <%= article.likes %></p>
-                            <a href="/reader/article/<%= article.id %>">Share this article</a>
+                            <a href="/reader/article/view/<%= article.id %>">
+                                <h2><%= article.title %></h2>
+                                <h3><%= article.subtitle %></h3>
+                                <p>Author: <%= article.author_name %></p>
+                                <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
+                                <p>Reads: <%= article.reads %></p>
+                                <p>Likes: <%= article.likes %></p>
+                            </a>
                         </li>
                         <% }); %>
                     </ul>

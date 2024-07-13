@@ -58,23 +58,21 @@ passport.use(
 // Configure session management
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
-    // console.log(user);
-    cb(null, { id: user.user_id, username: user.username, type: user.type });
+    cb(null, { id: user.id, username: user.username, type: user.type });
   });
 });
 
 passport.deserializeUser(function (user, cb) {
   process.nextTick(function () {
-    console.log(user);
     db.get(
-      "SELECT * FROM users WHERE user_id = ?",
+      "SELECT * FROM users WHERE id = ?",
       [user.id],
       function (err, dbUser) {
         if (err) {
           return cb(err);
         }
         cb(null, {
-          id: dbUser.user_id,
+          id: dbUser.id,
           username: dbUser.username,
           type: dbUser.type,
         });

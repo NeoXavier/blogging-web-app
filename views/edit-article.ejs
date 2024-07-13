@@ -66,7 +66,7 @@
   <div class="article-container">
     <h1>Edit Article</h1>
     <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
-    <p>Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
+    <p>Last Modified: <%= new Date(article.last_modified).toLocaleString() %></p>
 
     <form action="/author/articles/update/<%= article.id %>" method="POST">
       <label for="title">Article Title</label>
