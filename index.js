@@ -32,7 +32,10 @@ app.use(
     store: new SQLiteStore({ db: "sessions.db" }),
   }),
 );
+
 app.use(passport.authenticate("session"));
+
+// Flash messages
 app.use(function (req, res, next) {
   var msgs = req.session.messages || [];
   res.locals.messages = msgs;

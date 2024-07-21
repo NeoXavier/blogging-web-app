@@ -55,22 +55,13 @@ CREATE TABLE IF NOT EXISTS comments (
     article_id INTEGER,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    likes INTEGER DEFAULT 0,
     FOREIGN KEY (article_id) REFERENCES articles(id)
     FOREIGN KEY (username) REFERENCES users(username)
 );
 
 -- Insert default data (if necessary here)
 
--- Set up three users
--- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Simon Star', 'password1', 'author');
--- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Dianne Dean', 'password2', 'reader');
--- INSERT INTO users ('user_name', 'password', 'type') VALUES ('Harry Hilbert', 'password3', 'reader');
-
--- Give Simon two email addresses and Diane one, but Harry has none
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
--- INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
+-- db.js is used to insert default data into the database as it requires the crypt module to has the password and salt
 
 COMMIT;
 

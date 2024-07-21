@@ -4,53 +4,29 @@
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Reader Home Page</title>
-		<link rel="stylesheet" href="/main.css">
-          <style>
-        .articles ul {
-            list-style-type: none; /* Remove default list style */
-            padding: 0; /* Remove default padding */
-        }
-        .article {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #f9f9f9;
-            transition: background-color 0.3s ease;
-        }
-        .article:hover {
-            background-color: #e0e0e0;
-        }
-        .article a {
-            text-decoration: none;
-            color: inherit; /* Inherit color to make the entire list item clickable */
-            display: block; /* Make anchor fill the list item */
-        }
-    </style>
+        <link rel="stylesheet" href="/base.css">
+        <link rel="stylesheet" href="/index.css">
 </head>
 <body>
         <section class="app">
 			<nav class="nav">
 				<ul>
-                    <li class="settings"><a href="/author/settings">settings</a></li>
+                    <li class="settings"><a href="/users/settings">settings</a></li>
 					<li class="user"><%= user.username %></li>
-					<li>
-						<form action="/users/logout" method="post">
-							<button class="logout" type="submit">Sign out</button>
-						</form>
-					</li>
+                    <li>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
+                    </li>
 				</ul>
 			</nav>
+            <h1>Reader Home</h1>
 			<header class="header">
-				<h1>Reader Home Page</h1>
                 <h2><%= title%></h2>
                 <h3><%= subtitle%></h2>
                 <h5>by <%= author%></h3>
 			</header>
             <section class="main">
-                <p>This is the reader home page</p>
-                <section class="articles">
-                    <h2>Published Aritcles</h2>
+                <h2>Published Articles</h2>
+                <section class="article-list">
                     <ul>
                         <% articles.forEach(article => { %>
                         <li class="article">
@@ -66,8 +42,5 @@
                         <% }); %>
                     </ul>
             </section>
-		<footer class="info">
-			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
-		</footer>
 </body>
 </html>

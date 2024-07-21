@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Log in</title>
-		<link rel="stylesheet" href="/main.css">
-		<link rel="stylesheet" href="/login.css">
+          <link rel="stylesheet" href="/base.css">
+          <link rel="stylesheet" href="/index.css">
 	</head>
 	<body>
 		<section class="prompt">
@@ -13,16 +13,43 @@
 				<ul>
                     <li><a href="/author/home">back</a></li>
 					<li class="user"><%= user.username %></li>
-					<li>
-						<form action="/users/logout" method="post">
-							<button class="logout" type="submit">Sign out</button>
-						</form>
-					</li>
+                    <li>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
+                    </li>
 				</ul>
 			</nav>
-            <button type="button"><a href="/author/home">Back</a></button>
-			<h3>Settings</h3>
-			<form action="/author/settings" method="post">
+            <button type="button"><a href="/">Back</a></button>
+			<h2>Settings</h2>
+
+            <h3>Account Settings</h3>
+            <% if (hasMessages) { %>
+                <% messages.forEach(function(message) { %>
+                    <% if (message.type == "error") { %>
+                        <section class="error-messages">
+                            <p><%= message.message %></p>
+                        </section>
+                    <% } %>
+                    <% if (message.type == "success") { %>
+                        <section class="success-messages">
+                            <p><%= message.message %></p>
+                        </section>
+                    <% } %>
+                <% }); %>
+            <% } %>
+            <form action="/users/change-password" method="post">
+                <section>
+                    <label for="oldPassword">Old password</label>
+                    <input id="oldPassword" name="oldPassword" type="password" required autofocus>
+                </section>
+                <section>
+                    <label for="newPassword">New password</label>
+                    <input id="newPassword" name="newPassword" type="password" required autofocus>
+                </section>
+                <button type="submit">Change password</button>
+            </form>
+            <% if (user.type === 'author') { %>
+            <h3>Blog Settings</h3>
+			<form action="/author/blog-settings" method="post">
 				<section>
 					<label for="title">Blog Title</label>
                     <input id="title" name="title" type="text" value="<%= title%>" required autofocus>
@@ -37,10 +64,8 @@
 				</section>
 				<button type="submit">Update</button>
 			</form>
+            <% } %>
 		</section>
-		<footer class="info">
-			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
-		</footer>
 	</body>
 </html>
 

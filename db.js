@@ -40,7 +40,7 @@ var db = new sqlite3.Database("./database.db", function (err) {
       db.run(
         "INSERT OR IGNORE INTO users (username, hashed_password, salt, type) VALUES (?, ?, ?, 'reader')",
         [
-          "Dianne Dean",
+          "DianneD",
           crypto.pbkdf2Sync("password1", salt, 310000, 32, "sha256"),
           salt,
         ],

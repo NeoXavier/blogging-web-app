@@ -4,36 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><%= article.title %></title>
-        <link rel="stylesheet" href="/main.css">
-        <style>
-        .article-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .article-title {
-            text-align: center;
-        }
-        .article-metadata {
-            font-size: 0.9em;
-            color: #777;
-        }
-        .article-content {
-            margin-top: 20px;
-        }
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #007bff;
-        }
-        .back-button:hover {
-            text-decoration: underline;
-        }
-        </style>
+        <link rel="stylesheet" href="/base.css">
+        <link rel="stylesheet" href="/index.css">
     </head>
     <body>
         <section class="app">
@@ -42,24 +14,22 @@
                     <li class="settings"><a href="/reader/settings">settings</a></li>
                     <li class="user"><%= user.username %></li>
                     <li>
-                        <form action="/users/logout" method="post">
-                            <button class="logout" type="submit">Sign out</button>
-                        </form>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
                     </li>
                 </ul>
             </nav>
             <div class="article-container">
+                <button><a href="/" class="back-button">Back to Home</a></button>
                 <header>
                     <h1 class="article-title"><%= article.title %></h1>
                     <h2 class="article-subtitle"><%= article.subtitle %></h2>
                 </header>
-                <p class="article-metadata">By <%= article.author_name %> | Created: <%= new Date(article.created_at).toLocaleString() %> | Published: <%= article.published_at ? new Date(article.published_at).toLocaleDateString() : 'N/A' %> | Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
+                <p class="article-metadata">By <%= article.author_name %> | Created: <%= new Date(article.created_at).toLocaleDateString() %> | Published: <%= article.published_at ? new Date(article.published_at).toLocaleDateString() : 'N/A' %> | Last Modified: <%= new Date(article.last_modified).toLocaleDateString() %></p>
                 <p class="article-metadata">Likes: <%= article.likes %> | Reads: <%= article.reads %></p>
                 <div class="article-content">
                     <p><%= article.content %></p>
                 </div>
                 <button class="like-button"><a href="/reader/article/like/<%= article.id %>">Like</a></button>
-                <a href="/" class="back-button">Back to Home</a>
                 <!-- Comment Form -->
                 <div class="comment-form">
                     <h3>Leave a Comment</h3>

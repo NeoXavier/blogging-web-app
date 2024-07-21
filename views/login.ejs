@@ -4,19 +4,26 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Log in</title>
-		<link rel="stylesheet" href="/main.css">
-		<link rel="stylesheet" href="/login.css">
+		<link rel="stylesheet" href="/base.css">
+		<link rel="stylesheet" href="/index.css">
 	</head>
 	<body>
 		<section class="prompt">
-			<h3>Microblogger</h3>
+			<h3>Handlebar Diaries</h3>
             <h1>Sign in</h1>
             <% if (hasMessages) { %>
-            <section class="messages">
                 <% messages.forEach(function(message) { %>
-                <p><%= message %></p>
+                    <% if (message.type == "error") { %>
+                        <section class="error-messages">
+                            <p><%= message.message %></p>
+                        </section>
+                    <% } %>
+                    <% if (message.type == "success") { %>
+                        <section class="success-messages">
+                            <p><%= message.message %></p>
+                        </section>
+                    <% } %>
                 <% }); %>
-            </section>
             <% } %>
             <form action="/users/login/password" method="post">
 				<section>
@@ -32,9 +39,6 @@
 			<hr>
 			<p class="help">Don't have an account? <a href="/users/signup">Sign up</a></p>
 		</section>
-		<footer class="info">
-			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
-		</footer>
 	</body>
 </html>
 

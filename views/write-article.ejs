@@ -4,91 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Article</title>
-  <link rel="stylesheet" href="../main.css">
-  <style>
-    .article-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-
-    .article-container h1 {
-        width: 100%;
-        font-size: 80px;
-        font-weight: 200;
-        text-align: center;
-        color: #b83f45;
-        -webkit-text-rendering: optimizeLegibility;
-        -moz-text-rendering: optimizeLegibility;
-        text-rendering: optimizeLegibility;
-      text-align: center;
-    }
-
-    .article-container form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .article-container label {
-      margin-top: 10px;
-    }
-
-    .article-container input, 
-    .article-container textarea {
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .article-container button {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .article-container button:hover {
-      background-color: #0056b3;
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .back-button:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="/base.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-  <div class="article-container">
-    <h1>Create a new draft</h1>
+    <section class="app">
+			<nav class="nav">
+				<ul>
+                    <li class="settings"><a href="/users/settings">settings</a></li>
+					<li class="user"><%= user.username %></li>
+                    <li>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
+                    </li>
+				</ul>
+			</nav>
+            <section class="main">
+                <div class="article-container">
+                    <button class="back-button"><a href="/author/home">Back to Home</a></button>
+                    <h1>Create a new draft</h1>
 
-    <form action="/author/articles/create" method="POST">
-      <label for="title">Article Title</label>
-      <input type="text" id="title" name="title"  required>
+                    <form action="/author/article/create" method="POST">
+                        <label for="title">Article Title</label>
+                        <input type="text" id="title" name="title"  required>
 
-      <label for="title">Article Subtitle</label>
-      <input type="text" id="subtitle" name="subtitle"  required>
+                        <label for="title">Article Subtitle</label>
+                        <input type="text" id="subtitle" name="subtitle"  required>
 
-      <label for="content">Article Text</label>
-      <textarea id="content" name="content" rows="10" required></textarea>
+                        <label for="content">Article Text</label>
+                        <textarea id="content" name="content" rows="10" required></textarea>
 
-      <button type="submit">Create Draft</button>
-    </form>
-
-    <a href="/author/home" class="back-button">Back to Home</a>
-  </div>
+                        <button type="submit">Create Draft</button>
+                    </form>
+                </div>
+            </section>
+    </section>
 </body>
 </html>
 

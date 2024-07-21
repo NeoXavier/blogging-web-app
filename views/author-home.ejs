@@ -4,46 +4,8 @@
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Authour Home Page</title>
-        <link rel="stylesheet" href="/main.css">
-        <style>
-        .main button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-        }
-        .main button:hover {
-            background-color: #0056b3;
-        }
-        .main button a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .article {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #f9f9f9;
-            transition: background-color 0.3s ease;
-        }
-        .article:hover {
-            background-color: #e0e0e0;
-        }
-        .article a {
-            text-decoration: none;
-            color: inherit; /* Inherit color to make the entire list item clickable */
-            display: block; /* Make anchor fill the list item */
-        }
-
-        </style>
+        <link rel="stylesheet" href="/base.css">
+        <link rel="stylesheet" href="/index.css">
         <script>
         function shareArticle(articleId) {
             const rootUrl = `${window.location.origin}`;
@@ -56,26 +18,23 @@
         <section class="app">
 			<nav class="nav">
 				<ul>
-                    <li class="settings"><a href="/author/settings">settings</a></li>
+                    <li class="settings"><a href="/users/settings">settings</a></li>
 					<li class="user"><%= user.username %></li>
-					<li>
-						<form action="/users/logout" method="post">
-							<button class="logout" type="submit">Sign out</button>
-						</form>
-					</li>
+                    <li>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
+                    </li>
 				</ul>
 			</nav>
+            <h1>Author Home</h1>
 			<header class="header">
-				<h1>Author homepage</h1>
                 <h2><%= title%></h2>
                 <h3><%= subtitle%></h2>
                 <h5>by <%= author%></h3>
 			</header>
             <section class="main">
-                <p>This is the author home page</p>
-                <button type="button"><a href="/author/articles/create"> Create new draft</a></button>
-                <section class="articles">
-                    <h2>Your Drafts</h2>
+                <button type="button"><a href="/author/article/create"> Create new draft</a></button>
+                <h2>Your Drafts</h2>
+                <section class="article-list">
                     <ul>
                         <% draftArticles.forEach(article => { %>
                         <li class="article">
@@ -88,14 +47,10 @@
                                 <p>Published: <%= new Date(article.published_at).toLocaleDateString() %></p>
                                 <% } %>
                                 <p>Last Modified: <%= new Date(article.last_modified).toLocaleString() %></p>
-                                <p><%= article.content %></p>
                             </a>
-                            <button><a href="/author/articles/edit/<%= article.id %>">Edit</a></button>
-                            <form action="/author/articles/publish" method="POST" style="display:inline;">
-                                <input type="hidden" name="id" value="<%= article.id %>">
-                                <button type="submit">Publish</button>
-                            </form>
-                            <form action="/author/articles/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                            <button><a href="/author/article/edit/<%= article.id %>">Edit</a></button>
+                            <button><a href="/author/article/publish/<%= article.id %>">Publish</a></button>
+                            <form action="/author/article/delete/" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');">
                                 <input type="hidden" name="id" value="<%= article.id %>">
                                 <button type="submit">Delete</button>
                             </form>
@@ -103,8 +58,8 @@
                         <% }); %>
                     </ul>
                 </section>
-                <section class="articles">
-                    <h2>Your Published Aritcles</h2>
+                <h2>Your Published Aritcles</h2>
+                <section class="article-list">
                     <ul>
                         <% publishedArticles.forEach(article => { %>
                         <li class="article">
@@ -120,8 +75,9 @@
                                 <p>Likes: <%= article.likes %></p>
                             </a>
                             <button onclick="shareArticle(<%= article.id %>)">Share</button>
-                            <button><a href="/author/articles/edit/<%= article.id %>">Edit</a></button>
-                            <form action="/author/articles/delete/" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                            <button><a href="/author/article/edit/<%= article.id %>">Edit</a></button>
+                            <button><a href="/author/article/unpublish/<%= article.id %>">Unpublish</a></button>
+                            <form action="/author/article/delete/" method="POST" onsubmit="return confirm('Are you sure you want to delete this article?');">
                                 <input type="hidden" name="id" value="<%= article.id %>">
                                 <button type="submit">Delete</button>
                             </form>
@@ -129,9 +85,6 @@
                         <% }); %>
                     </ul>
             </section>
-		<footer class="info">
-			<p>Authentication powered by <a href="https://www.passportjs.org">Passport</a></p>
-		</footer>
 </body>
 </html>
 

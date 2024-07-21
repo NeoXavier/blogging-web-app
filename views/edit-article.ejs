@@ -4,85 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Article</title>
-  <link rel="stylesheet" href="/path/to/your/css/styles.css">
-  <style>
-    .article-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-
-    .article-container h1 {
-      text-align: center;
-    }
-
-    .article-container form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .article-container label {
-      margin-top: 10px;
-    }
-
-    .article-container input, 
-    .article-container textarea {
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .article-container button {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .article-container button:hover {
-      background-color: #0056b3;
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .back-button:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="/base.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-<body>
-  <div class="article-container">
-    <h1>Edit Article</h1>
-    <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
-    <p>Last Modified: <%= new Date(article.last_modified).toLocaleString() %></p>
+    <body>
+        <section class="app">
+			<nav class="nav">
+				<ul>
+                    <li class="settings"><a href="/users/settings">settings</a></li>
+					<li class="user"><%= user.username %></li>
+                    <li>
+                        <button class="logout"><a href="/users/logout">Sign out</a></button>
+                    </li>
+				</ul>
+			</nav>
+            <section class="main">
+                <button class="back-button"><a href="/author/home">Back to Home</a></button>
+                <div class="article-container">
+                    <h1>Edit Article</h1>
+                    <p>Created: <%= new Date(article.created_at).toLocaleDateString() %></p>
+                    <p>Last Modified: <%= new Date(article.last_modified).toLocaleString() %></p>
+                    <p>Published at: <%= new Date(article.published_at).toLocaleString() %></p>
 
-    <form action="/author/articles/update/<%= article.id %>" method="POST">
-      <label for="title">Article Title</label>
-      <input type="text" id="title" name="title" value="<%= article.title %>" required>
+                    <form action="/author/article/update" method="POST">
+                        <label for="title">Article Title</label>
+                        <input type="text" id="title" name="title" value="<%= article.title %>" required>
 
-      <label for="title">Article Subtitle</label>
-      <input type="text" id="subtitle" name="subtitle" value="<%= article.subtitle %>" required>
+                        <label for="title">Article Subtitle</label>
+                        <input type="text" id="subtitle" name="subtitle" value="<%= article.subtitle %>" required>
 
-      <label for="content">Article Text</label>
-      <textarea id="content" name="content" rows="10" required><%= article.content %></textarea>
+                        <label for="content">Article Text</label>
+                        <textarea id="content" name="content" rows="10" required><%= article.content %></textarea>
 
-      <button type="submit">Submit Changes</button>
-    </form>
-
-    <a href="/author/home" class="back-button">Back to Home</a>
-  </div>
-</body>
+                        <input type="hidden" name="id" value="<%= article.id %>">
+                        <button type="submit">Submit Changes</button>
+                    </form>
+                </div>
+            </section>
+        </section>
+    </body>
 </html>
 
