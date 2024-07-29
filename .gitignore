@@ -1,3 +1,5 @@
 /node_modules
 .eslintrc
 code/
+database.db
+sessions.db
