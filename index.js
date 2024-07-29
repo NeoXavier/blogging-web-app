@@ -3,6 +3,7 @@
  * This is your main app entry point
  */
 // This is to test the new feature issue #2
+// This is to test the new feature issue again #2
 
 // Set up express, bodyparser and EJS
 const express = require("express");
