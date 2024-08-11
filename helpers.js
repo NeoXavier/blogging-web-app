@@ -1,3 +1,4 @@
+// Test commit
 const db = global.db;
 
 // Helper functions for database interactions
